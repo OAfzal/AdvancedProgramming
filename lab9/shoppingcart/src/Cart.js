@@ -14,8 +14,6 @@ class Cart extends Component{
     render(){
         return (
             <div>
-                <CustomHead titleField="Shopping Cart" />
-                <CustomBtn fieldText="Go To Product List" customFtn={this.props.addProd} />
                 <CartContent />
             </div>
         );
