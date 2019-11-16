@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import CustomHead from './CustomHead';
-import CartContent from './CartContent';
-import ProdTable from './ProdTable';
-import CustomBtn from './CustomBtn';
+
 import 'w3-css/w3.css';
 
 
@@ -35,7 +32,7 @@ class ProductList extends Component{
         if(data){
             elem = data.map((obj,index)=>{
                 return (
-                    <tr className="w3-border">
+                    <tr key={obj._id} className="w3-border">
                         <td>
                             {obj.name}
                         </td>   
@@ -51,7 +48,7 @@ class ProductList extends Component{
                         <td>
                             <button className="w3-button w3-green w3-round" onClick={()=>alert("Product Added to Cart")} >+</button>
                         </td>   
-                    </tr>
+                    </tr> 
                 )
         });
         }
