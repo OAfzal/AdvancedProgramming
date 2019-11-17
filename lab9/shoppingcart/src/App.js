@@ -28,6 +28,7 @@ class App extends Component {
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.deleteFromCart = this.deleteFromCart.bind(this);
+        this.handleSignOut = this.handleSignOut.bind(this);
     }
 
     getProductList(){
@@ -39,6 +40,7 @@ class App extends Component {
 
     componentDidMount(){
         this.getProductList();
+        console.log(this.state.prodList);
     }
 
     addToCart(prodId){
@@ -90,11 +92,15 @@ class App extends Component {
         }))
     }
 
+    handleSignOut(){
+        this.setState({loggedIn:false});
+    }
+
     render(){
         console.log("Res:" + this.state.status);
         let loggedInView = (
             <div>
-                <CustomHead titleField={this.state.inCart?"Shopping Cart":"Product(s) List"} />
+                <CustomHead handleSignOut={this.handleSignOut} titleField={this.state.inCart?"Shopping Cart":"Product(s) List"} />
                 
                 <CustomBtn fieldText={this.state.inCart?"GoTo Mart":"Cart"} handleClick={this.handleGotoBtnClick} />
                 
