@@ -20,12 +20,39 @@ class App extends Component {
         this.state = {
             inCart: false,
             loggedIn: false,
-            status:0
+            status:0,
+            cart: [],
+            prodList:{}
         }
         this.handleGotoBtnClick = this.handleGotoBtnClick.bind(this);
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+        this.addToCart = this.addToCart.bind(this);
     }
 
+    getProductList(){
+        fetch('http://localhost:5000/')
+            .then(res => res.json())
+            .then(res => this.setState({prodList:res}))
+            .catch(err => err);
+    }
+
+    componentDidMount(){
+        this.getProductList();
+    }
+
+    addToCart(prodId){
+        let arr = this.state.prodList.slice();
+        let updatedCart = this.state.cart.slice();
+        
+        for (let index = 0; index < arr.length; index++) {
+            if(arr[index]._id == prodId){
+                updatedCart.push(arr[index]);
+                break;
+            }
+        }
+        console.log(updatedCart);
+        this.setState({cart:updatedCart});
+    }
 
     handleLoginSubmit(emailInp,passInp){
         alert("User Submitted:"+ emailInp + " pa: "+passInp);
@@ -56,7 +83,7 @@ class App extends Component {
             <div>
                 <CustomHead titleField={this.state.inCart?"Shopping Cart":"Product(s) List"} />
                 <CustomBtn fieldText={this.state.inCart?"GoTo Mart":"Cart ()"} handleClick={this.handleGotoBtnClick} />
-                {this.state.inCart?<Cart />:<ProductList />}
+                {this.state.inCart?<Cart data={this.state.cart} />:<ProductList data={this.state.prodList} onClick={this.addToCart} />}
             </div>
         )
         return (

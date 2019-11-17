@@ -8,13 +8,14 @@ class Cart extends Component{
 
     constructor(props){
         super(props);
+        console.log("In Cart: "+props.data);
         
     }
     
     render(){
         return (
             <div>
-                <CartContent />
+                <CartContent data={this.props.data}/>
             </div>
         );
     }

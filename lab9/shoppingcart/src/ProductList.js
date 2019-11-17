@@ -8,31 +8,21 @@ class ProductList extends Component{
 
     constructor(props){
         super(props);
-        this.state = {
-            apiRes:''
-        };
+        this.sendData = this.sendData.bind(this);
     }
 
-    componentDidMount(){
-        this.getData();
-        console.log(this.state.apiRes);
-    }
-
-    getData(){
-        fetch('http://localhost:5000/')
-            .then(res => res.json())
-            .then(res => this.setState({apiRes:res}))
-            .catch(err => err);
+    sendData(e){
+        // console.log(e.target.getAttribute("dataIndex"));
+        this.props.onClick(e.target.getAttribute("dataIndex"));
     }
 
     render(){
-        let data = this.state.apiRes;
-        console.log("Me here: "+data);
+
         let elem;
-        if(data){
-            elem = data.map((obj,index)=>{
+        if(this.props.data){
+            elem = this.props.data.map((obj,index)=>{
                 return (
-                    <tr key={obj._id} className="w3-border">
+                    <tbody key={obj._id} className="w3-border">
                         <td>
                             {obj.name}
                         </td>   
@@ -46,9 +36,9 @@ class ProductList extends Component{
                             {obj.category}
                         </td>
                         <td>
-                            <button className="w3-button w3-green w3-round" onClick={()=>alert("Product Added to Cart")} >+</button>
+                            <button dataIndex={obj._id} className="w3-button w3-green w3-round" onClick={this.sendData} >+</button>
                         </td>   
-                    </tr> 
+                    </tbody> 
                 )
         });
         }
