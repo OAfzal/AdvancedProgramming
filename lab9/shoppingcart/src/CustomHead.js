@@ -6,7 +6,7 @@ function  CustomHead(props){
     const element = (
         <div className="w3-container">
             <h1 className="w3-xxlarge w3-center">{props.titleField}</h1>
-            <SignOut handleClick={props.handleSignOut} />
+            <SignOut handleClick={props.handleSignOut} />   
         </div>
     );
     return element;

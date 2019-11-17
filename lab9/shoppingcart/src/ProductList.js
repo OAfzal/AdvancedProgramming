@@ -46,6 +46,7 @@ class ProductList extends Component{
         return (
             <div>
                 <div className="w3-container">
+                    <button className="w3-button w3-white w3-border w3-border-yellow w3-round-large w3-hover-yellow w3-margin w3-center" onClick={this.props.sortMe}>Sort By Price</button>
                     <table className="w3-table w3-striped w3-large">
                         <TBHeader/>
                         <tbody>

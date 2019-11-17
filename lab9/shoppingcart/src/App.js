@@ -22,13 +22,17 @@ class App extends Component {
             loggedIn: false,
             status:0,
             cart: [],
-            prodList:{}
+            prodList:{},
+            sorted:false
         }
         this.handleGotoBtnClick = this.handleGotoBtnClick.bind(this);
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.deleteFromCart = this.deleteFromCart.bind(this);
         this.handleSignOut = this.handleSignOut.bind(this);
+        this.sortKaro = this.sortKaro.bind(this);
+        this.asc = this.asc.bind(this);
+        this.desc = this.desc.bind(this);
     }
 
     getProductList(){
@@ -36,6 +40,36 @@ class App extends Component {
             .then(res => res.json())
             .then(res => this.setState({prodList:res}))
             .catch(err => err);
+    }
+
+
+    asc(a,b){
+        const priceA = parseInt(a.price);
+        const priceB = parseInt(b.price);
+
+        let comparison = 0;
+        if(priceA > priceB){
+            comparison = 1;
+        }
+        else if(priceA < priceB){
+            comparison = -1;
+        } 
+        return comparison;
+    }
+
+    desc(a,b){
+        const priceA = parseInt(a.price);
+        const priceB = parseInt(b.price);
+
+        let comparison = 0;
+
+        if(priceA > priceB){
+            comparison = -1;
+        }
+        else if(priceA < priceB){
+            comparison = 1;
+        } 
+        return comparison;
     }
 
     componentDidMount(){
@@ -63,6 +97,7 @@ class App extends Component {
         for (let index = 0; index < updatedCart.length; index++) {
             if(updatedCart[index]._id == prodId){
                 updatedCart.splice(index,1);
+                break;
             }
         }
         console.log(updatedCart);
@@ -96,6 +131,21 @@ class App extends Component {
         this.setState({loggedIn:false});
     }
 
+    sortKaro(){
+        let arr = this.state.prodList.slice();
+
+        console.log(this.state.sorted);
+        if(this.state.sorted){
+            arr.sort(this.desc);
+            this.setState({sorted:false,prodList:arr});
+        }
+        else{
+            arr.sort(this.asc);
+            this.setState({sorted:true,prodList:arr});
+        }
+        console.log(arr);
+    }
+
     render(){
         console.log("Res:" + this.state.status);
         let loggedInView = (
@@ -104,7 +154,7 @@ class App extends Component {
                 
                 <CustomBtn fieldText={this.state.inCart?"GoTo Mart":"Cart"} handleClick={this.handleGotoBtnClick} />
                 
-                {this.state.inCart?<CartContent onClick={this.deleteFromCart} data={this.state.cart} />:<ProductList data={this.state.prodList} onClick={this.addToCart} />}
+                {this.state.inCart?<CartContent onClick={this.deleteFromCart} data={this.state.cart} />:<ProductList data={this.state.prodList} onClick={this.addToCart} sortMe={this.sortKaro} />}
             </div>
         )
         return (
