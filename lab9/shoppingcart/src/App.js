@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import Cart from './Cart';
 import ProductList from './ProductList';
 import CustomHead from './CustomHead'
 import CustomBtn from './CustomBtn'
 import Login from './Login'
+import CartContent from './CartContent';
 
 
 const StatusDetails = {
@@ -27,6 +27,7 @@ class App extends Component {
         this.handleGotoBtnClick = this.handleGotoBtnClick.bind(this);
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.addToCart = this.addToCart.bind(this);
+        this.deleteFromCart = this.deleteFromCart.bind(this);
     }
 
     getProductList(){
@@ -43,11 +44,23 @@ class App extends Component {
     addToCart(prodId){
         let arr = this.state.prodList.slice();
         let updatedCart = this.state.cart.slice();
-        
+
         for (let index = 0; index < arr.length; index++) {
             if(arr[index]._id == prodId){
                 updatedCart.push(arr[index]);
                 break;
+            }
+        }
+        console.log(updatedCart);
+        this.setState({cart:updatedCart});
+    }
+
+    deleteFromCart(prodId){
+        let updatedCart = this.state.cart.slice();
+
+        for (let index = 0; index < updatedCart.length; index++) {
+            if(updatedCart[index]._id == prodId){
+                updatedCart.splice(index,1);
             }
         }
         console.log(updatedCart);
@@ -82,8 +95,10 @@ class App extends Component {
         let loggedInView = (
             <div>
                 <CustomHead titleField={this.state.inCart?"Shopping Cart":"Product(s) List"} />
-                <CustomBtn fieldText={this.state.inCart?"GoTo Mart":"Cart ()"} handleClick={this.handleGotoBtnClick} />
-                {this.state.inCart?<Cart data={this.state.cart} />:<ProductList data={this.state.prodList} onClick={this.addToCart} />}
+                
+                <CustomBtn fieldText={this.state.inCart?"GoTo Mart":"Cart"} handleClick={this.handleGotoBtnClick} />
+                
+                {this.state.inCart?<CartContent onClick={this.deleteFromCart} data={this.state.cart} />:<ProductList data={this.state.prodList} onClick={this.addToCart} />}
             </div>
         )
         return (

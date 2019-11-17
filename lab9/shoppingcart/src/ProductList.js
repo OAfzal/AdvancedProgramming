@@ -13,6 +13,7 @@ class ProductList extends Component{
 
     sendData(e){
         // console.log(e.target.getAttribute("dataIndex"));
+        alert("Added to Cart");
         this.props.onClick(e.target.getAttribute("dataIndex"));
     }
 
@@ -22,7 +23,7 @@ class ProductList extends Component{
         if(this.props.data){
             elem = this.props.data.map((obj,index)=>{
                 return (
-                    <tbody key={obj._id} className="w3-border">
+                    <tr key={obj._id} className="w3-border">
                         <td>
                             {obj.name}
                         </td>   
@@ -38,7 +39,7 @@ class ProductList extends Component{
                         <td>
                             <button dataIndex={obj._id} className="w3-button w3-green w3-round" onClick={this.sendData} >+</button>
                         </td>   
-                    </tbody> 
+                    </tr> 
                 )
         });
         }
@@ -47,7 +48,9 @@ class ProductList extends Component{
                 <div className="w3-container">
                     <table className="w3-table w3-striped w3-large">
                         <TBHeader/>
-                        {elem}
+                        <tbody>
+                            {elem}
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -58,13 +61,15 @@ class ProductList extends Component{
 function TBHeader(){
 
     return(
-        <tr className="w3-blue">
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Reviews</th>
-            <th>Add To Cart</th>
-        </tr>
+        <thead>
+            <tr className="w3-blue">
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Reviews</th>
+                <th>Add To Cart</th>
+            </tr>
+        </thead>
     );
 
 }
