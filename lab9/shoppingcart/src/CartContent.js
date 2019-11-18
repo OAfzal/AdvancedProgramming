@@ -37,6 +37,9 @@ class CartContent extends Component{
                             {obj.category}
                         </td>
                         <td>
+                            {obj.qty}
+                        </td>
+                        <td>
                             <button dataIndex={obj._id} className="w3-button w3-red w3-round" onClick={this.sendData} >Delete</button>
                         </td>   
                     </tr> 
@@ -53,7 +56,8 @@ class CartContent extends Component{
                             <th>Name</th>
                             <th>Description</th>
                             <th>Price</th>
-                            <th>Reviews</th>
+                            <th>Category</th>
+                            <th>Qty.</th>
                             <th>Remove</th>
                         </tr>
                     </thead>

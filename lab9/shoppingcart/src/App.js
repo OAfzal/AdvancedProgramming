@@ -81,13 +81,32 @@ class App extends Component {
         let arr = this.state.prodList.slice();
         let updatedCart = this.state.cart.slice();
 
+        console.log(updatedCart);
+
+        let elem = {};
+
         for (let index = 0; index < arr.length; index++) {
             if(arr[index]._id == prodId){
-                updatedCart.push(arr[index]);
+                elem = arr[index];
                 break;
             }
         }
-        console.log(updatedCart);
+        let found = false;
+
+        for (let index = 0; index < updatedCart.length; index++) {
+            
+            if(updatedCart[index]._id == prodId){
+                console.log(updatedCart[index].qty);
+                updatedCart[index].qty = parseInt(updatedCart[index].qty) + 1;
+                found = true;
+                break;
+            }
+        }
+        if(found == false){
+            elem.qty = 1;
+            updatedCart.push(elem);
+        }
+        
         this.setState({cart:updatedCart});
     }
 
@@ -147,7 +166,6 @@ class App extends Component {
     }
 
     render(){
-        console.log("Res:" + this.state.status);
         let loggedInView = (
             <div>
                 <CustomHead handleSignOut={this.handleSignOut} titleField={this.state.inCart?"Shopping Cart":"Product(s) List"} />
