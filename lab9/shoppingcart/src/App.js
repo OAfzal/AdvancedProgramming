@@ -115,7 +115,12 @@ class App extends Component {
 
         for (let index = 0; index < updatedCart.length; index++) {
             if(updatedCart[index]._id == prodId){
-                updatedCart.splice(index,1);
+                if(updatedCart[index].qty > 1){
+                    updatedCart[index].qty -=1;
+                }
+                else{
+                    updatedCart.splice(index,1);
+                }
                 break;
             }
         }
