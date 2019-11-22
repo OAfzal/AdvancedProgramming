@@ -4,7 +4,8 @@ import CustomHead from './CustomHead'
 import CustomBtn from './CustomBtn'
 import Login from './Login'
 import CartContent from './CartContent';
-
+import SignUp from './signup';
+import SignUpBtn from './signup_btn';
 
 const StatusDetails = {
     "incomp": "Please fill all fields",
@@ -20,6 +21,7 @@ class App extends Component {
         this.state = {
             inCart: false,
             loggedIn: false,
+            signup:false,
             status:0,
             cart: [],
             prodList:{},
@@ -27,6 +29,7 @@ class App extends Component {
         }
         this.handleGotoBtnClick = this.handleGotoBtnClick.bind(this);
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+        this.handleSignUpSubmit = this.handleSignUpSubmit.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.deleteFromCart = this.deleteFromCart.bind(this);
         this.handleSignOut = this.handleSignOut.bind(this);
@@ -145,6 +148,23 @@ class App extends Component {
             .catch(error => console.error('Error:',error));
     }
 
+    handleSignUpSubmit(emailInp,passInp){
+
+        const url = 'http://localhost:5000/signup';
+        const data = {email:emailInp,password:passInp};
+        fetch(url,{method:"POST", body:JSON.stringify(data),headers:{'Content-Type':'application/json'}})
+            .then(res => res.text())
+            .then(res =>{
+                if(res == "succ"){
+                   this.setState({status:res,loggedIn:false})
+                }
+                else{
+                    this.setState({status:res})
+                }
+            })
+            .catch(error => console.error('Error:',error));
+    }
+
     handleGotoBtnClick(){
         this.setState((state,props) =>({
             inCart :!state.inCart
@@ -181,7 +201,18 @@ class App extends Component {
             </div>
         )
         return (
-            this.state.loggedIn?loggedInView:<Login handleLoginSubmit={this.handleLoginSubmit} notify={StatusDetails[this.state.status]} />
+            this.state.loggedIn ? loggedInView:(this.state.signup ? (
+                    <div>
+                        <SignUp />
+                        <CustomBtn fieldText="Already have an account? Login" handleClick={()=> {console.log("apan");this.setState({signup:false})}} />
+                    </div>) :(
+
+                    <div>
+                        <Login handleLoginSubmit={this.handleLoginSubmit} notify={StatusDetails[this.state.status]} />
+                        <SignUpBtn handleClick={()=> {console.log("apan");this.setState({signup:true})}} />
+                    </div>
+                )
+            )
         )
     }
 
