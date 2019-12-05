@@ -8,9 +8,11 @@ import SignUp from './signup';
 import SignUpBtn from './signup_btn';
 
 const StatusDetails = {
+    "succ":"Successfully Created! Login Now",
     "incomp": "Please fill all fields",
     "signup": "User does not Exist Please Sign Up first",
-    "wrong": "Email or Password Wrong"
+    "wrong": "Email or Password Wrong",
+    "exists": "User already Exists"  
 }
 
 class App extends Component {
@@ -22,7 +24,7 @@ class App extends Component {
             inCart: false,
             loggedIn: false,
             signup:false,
-            status:0,
+            status:"",
             cart: [],
             prodList:{},
             sorted:false
@@ -148,13 +150,13 @@ class App extends Component {
             .catch(error => console.error('Error:',error));
     }
 
-    handleSignUpSubmit(emailInp,passInp){
-
+    handleSignUpSubmit(obj){
+        console.log(obj);
         const url = 'http://localhost:5000/signup';
-        const data = {email:emailInp,password:passInp};
-        fetch(url,{method:"POST", body:JSON.stringify(data),headers:{'Content-Type':'application/json'}})
+        fetch(url,{method:"POST", body:JSON.stringify(obj),headers:{'Content-Type':'application/json'}})
             .then(res => res.text())
             .then(res =>{
+                console.log(res);
                 if(res == "succ"){
                    this.setState({status:res,loggedIn:false})
                 }
@@ -172,7 +174,7 @@ class App extends Component {
     }
 
     handleSignOut(){
-        this.setState({loggedIn:false});
+        this.setState({loggedIn:false,status:""});
     }
 
     sortKaro(){
@@ -203,13 +205,13 @@ class App extends Component {
         return (
             this.state.loggedIn ? loggedInView:(this.state.signup ? (
                     <div>
-                        <SignUp />
-                        <CustomBtn fieldText="Already have an account? Login" handleClick={()=> {console.log("apan");this.setState({signup:false})}} />
+                        <SignUp notify={StatusDetails[this.state.status]} cnotify={this.state.status?(this.state.status== "succ"?"w3-panel w3-pale-green":"w3-panel w3-pale-red"):""} handleSubmit={this.handleSignUpSubmit} />
+                        <CustomBtn fieldText="Already have an account? Login" handleClick={()=> {this.setState({signup:false})}} />
                     </div>) :(
 
                     <div>
                         <Login handleLoginSubmit={this.handleLoginSubmit} notify={StatusDetails[this.state.status]} />
-                        <SignUpBtn handleClick={()=> {console.log("apan");this.setState({signup:true})}} />
+                        <SignUpBtn handleClick={()=> {this.setState({signup:true})}} />
                     </div>
                 )
             )

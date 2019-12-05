@@ -20,6 +20,7 @@ class Signup extends Component{
     handleSubmit(event){
         event.preventDefault();
         console.log(this.state);
+        this.props.handleSubmit(this.state);
     }
 
 
@@ -28,7 +29,9 @@ class Signup extends Component{
             <div className="w3-container w3-blue">
                 <h2>Sign Up</h2>
             </div>
-            <span className="w3-text-red w3-small w3-margin"><b>{this.props.notify}</b></span>
+            <div className={this.props.cnotify}>
+                <span className="w3-small w3-margin"><b>{this.props.notify}</b></span>
+            </div>
             <form className="w3-container" onSubmit={this.handleSubmit} method="post">
 
                 <GetFormComponent cLabel="Email" cType={"text"} cName="email" hChange={this.handleChange} />
@@ -36,7 +39,7 @@ class Signup extends Component{
                 <GetFormComponent cLabel="Confirm Password" cType="password" cName="cpassword" hChange={this.handleChange} />
                 {/* <span className="w3-text-red w3-small w3-margin"><b></b></span> */}
 
-                <input className="w3-btn w3-blue" type="submit" value="Submit" />
+                <input className="w3-btn w3-blue" type="submit" value="Submit" onClick={this.handleSubmit} />
             </form>
         </div>);
     }

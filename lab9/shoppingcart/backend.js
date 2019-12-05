@@ -21,18 +21,34 @@ app.use(session({secret: "Shh, its a secret!",resave: false,
 saveUninitialized: true}));
 
 app.get('/',function(req,res){
-    console.log(req.session.user);
+    // console.log(req.session.user);
     Product.find(function(err,prods){
-        console.log(prods);
         res.send(prods);
         res.end();
     })
-    // if(req.session.user){
-        
-    // }
-    // else{
-    //     res.redirect('/login');
-    // }
+})
+
+app.post('/signup',function(req,res){
+    var data = req.body;
+    console.log(data);
+
+    if(!data.email || !data.password || !data.cpassword){
+        res.send('incomp');
+    }
+    else{
+        User.find({email:data.email},"email",function(err,result){
+            console.log(result);
+            if(result != ""){
+                res.send("exists");
+            }
+            else{
+                var newUser = new User({name:data.name,email:data.email,type:"buyer"});
+                newUser.password = newUser.generateHash(data.password);
+                newUser.save();
+                res.send("succ");
+            }
+        })
+    }
 })
 
 app.post('/login',function(req,res){
