@@ -1,0 +1,100 @@
+doctype html
+html
+    head
+    |
+    |
+    style(type='text/css').
+        body{
+            width:35%;
+            height:35%
+            margin: 0px auto;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        input[type=text] , input[type=password] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+
+        input[type=submit], button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        #signup_link{
+        }
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .lab {
+            float: left;
+            width: 15%;
+            margin-top: 6px;
+        }
+
+        .field {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+        .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+    |
+    |
+    body
+        div.container
+            h2. 
+                Login
+            if(type = "error")
+                span(style = "color:red;font-size:10px") #{message}
+            elseif(type = "succ")
+                span(style = "color:green;font-size:10px") #{message}
+            form(method='POST' action="login")
+                div.row
+                    div.lab
+                        label(for="email").
+                            Email
+                    div.field 
+                        input(type='text' name='email')
+                        br
+                    
+                
+                div.row
+                    div.lab
+                        label(for="password").
+                            Password 
+                    div.field
+                        input(type='password' name='password')
+                        br
+                div.row
+                    a(href="register" id="signup_link"): p.
+                        Create An Account
+                    input(type="submit")
+                    
+
+

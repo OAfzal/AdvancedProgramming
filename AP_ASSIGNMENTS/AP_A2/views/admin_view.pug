@@ -1,0 +1,156 @@
+doctype html
+html
+    head
+     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+     style(type='text/css').
+        *{
+            margin: 10px;
+        }
+        #title{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            //- border-collapse: collapse;
+            width: 100%;
+        }
+
+        table td, table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        table tr:nth-child(even){background-color: #f2f2f2;}
+
+        table tr:hover {background-color: #ddd;}
+
+        button {
+            background-color: #808080;
+            color: white;
+            padding: 12px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            //- float: right;
+        }
+
+        #out:hover{
+            background-color:red;
+        
+        }
+
+        .del{
+            background-color:red;
+        }
+        .update{
+            background-color: #4CAF50;
+        }
+
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #808080;
+            color: white;
+        }
+
+    body
+        include logout.pug
+        table(id="listUsers" align="center")
+            tr
+                th.
+                    id
+                th.
+                    name
+                th.
+                    email
+                th.
+                    Type
+                th.
+                    Password
+                th(colspan=2).
+                    Action   
+            each user in userList
+                tr
+                    td(id="userID").
+                        #{user._id}
+                    td.
+                        #{user.name}
+                    td.
+                        #{user.email}
+                    td(id="type").
+                        #{user.type}
+                    td.
+                        #{user.password}
+                    td
+                        button(class='del').
+                            Delete
+                    td                    
+                        button(class='update').
+                            Swap
+
+
+        script.
+            $().ready(function(){
+
+
+                $(".del").on("click",function (){
+                    var sib = $(this).parent().siblings("#userID");
+                    var id = sib.html();
+                    if(confirm("Please press okay if you want to delete")){
+                        $.post("/deleteUser",
+                        {
+                            _id:id
+                        },
+                        function(data, status){
+                            //- alert("Deleted: " + data + "\nStatus: " + status);
+                            location.href=  "/login";
+                        });    
+                    }
+                    
+                })
+                $(".update").on("click",function(){
+                    var sib = $(this).parent().siblings("#type");
+                    var type = sib.html();
+                    var id =$(this).parent().siblings("#userID").html();
+                    if(type == "seller"){
+                        alert("Conversion to an inferiror level not allowed. Apply for Removal!");
+                    }
+                    else if(type == "buyer"){
+                        console.log("Updating");
+                        $.post("/updateUser",
+                        {
+                            _id:id,
+                            changes:{type:"seller"}
+                        },
+                        function(data, status){
+                            //- alert("Deleted: " + data + "\nStatus: " + status);
+                            location.href = "/login"
+                        });    
+                    }
+                    
+                })
+
+
+            })
+                
+
+    //- form(action='/action_page.php')
+    //-     fieldset
+    //-         legend Add Item:
+    //-         |     First name:
+    //-         br
+    //-         input(type='text' name='firstname' value='Mickey')
+    //-         br
+    //-         |     Last name:
+    //-         br
+    //-         input(type='text' name='lastname' value='Mouse')
+    //-         br
+    //-         br
+    //-         input(type='submit' value='Submit')

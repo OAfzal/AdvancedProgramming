@@ -1,0 +1,148 @@
+doctype html
+html
+    head
+    |
+    |
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+    style(type='text/css').
+        *{
+            margin: 10px;
+        }
+        #title{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            //- border-collapse: collapse;
+            width: 100%;
+        }
+        .del:hover{
+            background-color:red;
+        }
+        table td, table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        table tr:nth-child(even){background-color: #f2f2f2;}
+
+        table tr:hover {background-color: #ddd;}
+
+        button {
+            background-color: #808080;
+            color: white;
+            padding: 12px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            //- float: right;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #808080;
+            color: white;
+        }
+    |
+    |
+    body
+        h1(id="title").
+            Product List
+        
+        form(method='get' action='/addItem' enctype="multipart/form-data")
+            button(type='submit') Add Item
+    
+        include logout.pug
+
+        table(id="list" align="center")
+            tr
+                th.
+                    ID
+                th.
+                    Name
+                th.
+                    Description
+                th.
+                    Price
+                th.
+                    Category
+                th.
+                    Image
+                th.
+                    Reviews
+                th.
+                    Actions
+            each product in productList
+                tr
+                    td(id="prodid").
+                        #{product._id}
+                    td.
+                        #{product.name}
+                    td.
+                        #{product.description}
+                    td.
+                        #{product.price}
+                    td.
+                        #{product.category}
+                    td.
+                        Something
+                    td.
+                        #{product.reviews}
+                    td
+                        button(class='del').
+                            Delete
+
+
+
+        script.
+            $().ready(function(){
+
+
+                $(".del").on("click",function (){
+                    var sib = $(this).parent().siblings("#prodid");
+                    var prodid = sib.html();
+                    if(confirm("Please press okay if you want to delete")){
+                        $.post("/deleteItem",
+                        {
+                            _id:prodid
+                        },
+                        function(data, status){
+                            //- alert("Deleted: " + data + "\nStatus: " + status);
+                            location.href=  "/login";
+                        });    
+                    }
+                    
+                })
+                //- $(".update").on("click",function(){
+                //-     var sib = $(this).parent().siblings("#type");
+                //-     var type = sib.html();
+                //-     var id =$(this).parent().siblings("#userID").html();
+                //-     if(type == "seller"){
+                //-         alert("Conversion to an inferiror level not allowed. Apply for Removal!");
+                //-     }
+                //-     else if(type == "buyer"){
+                //-         console.log("Updating");
+                //-         $.post("/updateUser",
+                //-         {
+                //-             _id:id,
+                //-             changes:{type:"seller"}
+                //-         },
+                //-         function(data, status){
+                //-             //- alert("Deleted: " + data + "\nStatus: " + status);
+                //-             location.href = "/login"
+                //-         });    
+                //-     }
+                    
+                //- })
+
+            })
+                    
+
+

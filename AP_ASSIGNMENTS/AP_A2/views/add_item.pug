@@ -1,0 +1,132 @@
+doctype html
+html
+    head
+        style(type='text/css').
+            body{
+                width:35%;
+                height:35%
+                margin: 0px auto;
+            }
+
+            * {
+                font-family: Arial, Helvetica, sans-serif;
+                box-sizing: border-box;
+            }
+            input[type=text]  {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                resize: vertical;
+            }
+
+            label {
+                padding: 12px 12px 12px 0;
+                display: inline-block;
+            }
+
+            input[type=submit], button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 12px 20px;
+                margin: 5px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                float: right;
+            }
+            #btn_cancel{
+                background-color:red;
+                color:white;
+            }
+            input[type=submit]:hover {
+                background-color: #45a049;
+            }
+            .container {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+
+            .lab {
+                float: left;
+                width: 15%;
+                margin-top: 6px;
+                margin-right:10px;
+            }
+
+            .field {
+                float: left;
+                width: 75%;
+                margin-top: 6px;
+            }
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+    |
+    |
+    body
+        div.container
+            h1.
+                Add New Product
+            p.
+            if(type="error")
+                span(style = "color:red;font-size:10px") #{message}
+            form(action="/addItem" method="POST")
+                    div.row
+                        div.lab
+                            label(for="name").
+                                Name
+                        div.field 
+                            input(type='text' name='name')
+                            br
+                    
+                    div.row
+                        div.lab
+                            label(for="description").
+                                Description
+                        div.field 
+                            input(type='text' name='description')
+                            br
+                    div.row
+                        div.lab
+                            label(for="price").
+                                Price 
+                        div.field
+                            input(type='text' name='price')
+                            br
+                    
+                    div.row
+                        div.lab
+                            label(for="category").
+                                Category 
+                        div.field
+                            input(type='text' name='category')
+                            br
+                    
+
+                    div.row
+                        div.lab
+                            label(for="reviews").
+                                Reviews 
+                        div.field
+                            input(type='text' name='reviews')
+                            br
+                            br
+
+                    div.row
+                        div.lab
+                            label(for="image").
+                                Image 
+                        //- div.field
+                        //-     input(type='file' name='image')
+                        //-     br
+                
+                    div.row
+                        button(type="button" id="btn_cancel" onclick="location.href='login'").
+                            Cancel
+                        input(type="submit" value="ADD")
+            
+

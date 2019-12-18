@@ -1,0 +1,11 @@
+button(id="out" style="float:right").
+    Sign Out
+
+script.
+    $("#out").on("click",function (){
+        $.get("/signout", function(data, status){
+            console.log(status);
+            location.href = "/login"
+        });
+    })
+    
